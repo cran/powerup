@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Table Styling</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Table Styling</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(powerup)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Loading required package: polish</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt;     filter, lag</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>pptx <span class="ot">&lt;-</span> <span class="fu">example_pptx</span>()</span></code></pre></div>
+<p>One of the many benefits of working with powerup, is that you have
+the ability to quickly add tables to your slides. However, some
+presentations require more than adding them as am basic table, but apply
+styling as defined in your presentation.</p>
+<p>This too can be easily done via powerup by using the “table_style”
+argument when adding the content.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>pptx <span class="ot">&lt;-</span> pptx <span class="sc">|&gt;</span> </span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">add_slide</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>    <span class="fu">content</span>(mtcars, <span class="at">table_style =</span> <span class="fu">list</span>(<span class="at">style =</span> <span class="st">&quot;named table style&quot;</span>, <span class="at">options =</span> <span class="fu">c</span>(<span class="st">&quot;Banded Columns&quot;</span>, <span class="st">&quot;Banded Rows&quot;</span>,<span class="st">&quot;First Column&quot;</span>,<span class="st">&quot;Header Row&quot;</span>,<span class="st">&quot;Last Column&quot;</span>,<span class="st">&quot;Total Row&quot;</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  )</span></code></pre></div>
+<p>The table_style argument must be a named list, with elements for
+“style” and “options”. <code>style</code> must one of the named table
+styles that already exists in the PowerPoint, and will override styling
+that may exist for the table already. <code>options</code> define some
+optional settings that are from the selected style.</p>
+<ul>
+<li>Banded Columns</li>
+<li>Banded Rows</li>
+<li>First Column</li>
+<li>Header Row</li>
+<li>Last Column</li>
+<li>Total Row</li>
+</ul>
+<div id="available-table-styles" class="section level2">
+<h2>Available Table styles</h2>
+<p>To get the list of available table styles, use the
+<code>get_table_styles()</code> function.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">get_table_styles</span>(pptx)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; [1] style_id   style_name</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; &lt;0 rows&gt; (or 0-length row.names)</span></span></code></pre></div>
+</div>
+<div id="defining-a-new-table-style" class="section level2">
+<h2>Defining A New Table Style</h2>
+<p>Users also have the option of defining their own table styles as
+well. This is done via the <code>add_table_style()</code> function,
+which accepts a pptx_container, and the results from
+<code>new_table_style()</code>.</p>
+<p><code>new_table_style()</code> has many arguments that lets users
+define information about the table, such as default text color, cell
+background color, border colors, border styles and weight, etc. See the
+help page (?new_table_style) for all the available options.</p>
+<p>To add a new defined table style in your PowerPoint you do the
+following:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>pptx <span class="ot">&lt;-</span> pptx <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">add_table_style</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    <span class="at">table_style =</span> <span class="fu">new_table_style</span>(</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>      <span class="at">style_name =</span> <span class="st">&quot;NEW Table Style&quot;</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>      <span class="at">text_color =</span> <span class="st">&quot;#000000&quot;</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>      <span class="at">cell_color =</span> <span class="st">&quot;#ffffff&quot;</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>      <span class="at">row_header_cell_color =</span> <span class="st">&quot;#959595&quot;</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>      <span class="at">row_total_cell_color =</span> <span class="st">&quot;#E6E6E6&quot;</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>      <span class="at">major_border_color =</span> <span class="st">&quot;#f36633&quot;</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>      )</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Once a table style has been added, it can be referenced when adding a
+table!</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>table_to_style <span class="ot">&lt;-</span> airquality <span class="sc">|&gt;</span> </span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  flextable<span class="sc">::</span><span class="fu">flextable</span>()</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>pptx <span class="ot">&lt;-</span> pptx <span class="sc">|&gt;</span> </span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="fu">add_slide</span>(</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>    <span class="at">layout =</span> <span class="st">&quot;Title and Content&quot;</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>    <span class="fu">content</span>(table_to_style, <span class="at">table_style =</span> <span class="fu">list</span>(<span class="at">style =</span> <span class="st">&quot;NEW Table Style&quot;</span>, <span class="at">options =</span> <span class="fu">c</span>(<span class="st">&quot;Header Row&quot;</span>)), <span class="at">ph =</span> <span class="fu">ph_body</span>())</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  )</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; → powerup to add 1 content at slide 4.</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; ✔ Successfully added content to placeholder &quot;Content Placeholder 2&quot;.</span></span></code></pre></div>
+<p>The styled table looks as follows:</p>
+<p><img role="img" src="data:image/png;base64,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" /></p>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>You can add as many unique table styles as needed, but each table can
+only have a single style applied.</p>
+</div>
+<div id="section" class="section level2">
+<h2></h2>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

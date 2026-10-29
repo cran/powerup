@@ -1,0 +1,37 @@
+Package: powerup
+Title: Power Up Your PowerPoint Presentations
+Version: 0.3.1
+Authors@R: c(
+      person("Ellis", "Hughes", email = "ellis.h.hughes@gsk.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-0637-4436")), 
+      person("Shannon", "Haughton", email = "shannon.l.haughton@gsk.com", role = "aut"),
+      person("Romain", "François", email = "romain@tada.science", role = "aut"), 
+      person("GlaxoSmithKline Research & Development Limited", role = c("cph", "fnd"))
+    )
+Description: Programmatically interact with new or existing 'Microsoft PowerPoint' documents,
+    by adding new slides, updating existing slides, and inserting displays into specific locations in slides.
+    Users can also add transition effects to slides, and add displays to specific
+    locations in slides by pointing to specific placeholders or creating new ones.
+    Preview the slides in a local viewer.
+License: Apache License (>= 2)
+URL: https://gsk-biostatistics.github.io/powerup/,
+        https://github.com/GSK-Biostatistics/powerup/
+BugReports: https://github.com/GSK-Biostatistics/powerup/issues/
+Depends: R (>= 4.1.0), polish (>= 0.2.0)
+Imports: rlang, dplyr, officer (>= 0.6.7), purrr, tibble, xml2, cli,
+        glue, ggplot2, htmltools, base64enc, shiny
+Suggests: testthat (>= 3.0.0), rmarkdown, webshot2, knitr, flextable,
+        withr
+Config/testthat/edition: 3
+Encoding: UTF-8
+VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0
+NeedsCompilation: no
+Packaged: 2026-10-19 12:57:39 UTC; ehh82309
+Author: Ellis Hughes [aut, cre] (ORCID:
+    <https://orcid.org/0000-0003-0637-4436>),
+  Shannon Haughton [aut],
+  Romain François [aut],
+  GlaxoSmithKline Research & Development Limited [cph, fnd]
+Maintainer: Ellis Hughes <ellis.h.hughes@gsk.com>
+Repository: CRAN
+Date/Publication: 2026-10-29 11:50:02 UTC

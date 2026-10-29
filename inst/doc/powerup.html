@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>powerup</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">powerup</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(powerup)</span></code></pre></div>
+<p>For the purpose of this document, let’s start by laying out some
+vocabulary about Microsoft PowerPoint documents. - A document is made of
+several slides - Each slide has a particular layout, from the list of
+available layouts in the document’s template - A placeholder is a
+location on the slide for content can be added to - A layout is made of
+several potential placeholders - A slide can have various displays
+(text, images, etc …) placed either in these pre-existing placeholders,
+or in placeholders that are specific to the slide.</p>
+<p>The goal of the <code>powerup</code> package is to help with creating
+and updating powerpoint documents throughout all these steps. As such,
+powerup can create and delete slides, or update them by adding displays
+to either predefined or bespoke placeholders.</p>
+<p>This vignette should give users enough information to get started
+with creating powerpoint documents and add various contents to them with
+powerup.</p>
+<div id="loading-powerpoint-documents" class="section level1">
+<h1>Loading Powerpoint documents</h1>
+<p>You can start by using the <code>load_pptx()</code> to load your own
+Powerpoint document, or simply start with an empty document with the
+basic PowerPoint Template.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># pptx &lt;- load_pptx(&quot;//where/is/your/document.pptx&quot;)</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>pptx <span class="ot">&lt;-</span> <span class="fu">load_pptx</span>()</span></code></pre></div>
+<p><code>powerup</code> uses a custom S3 class
+<code>&lt;pptx_container&gt;</code> that thinly wraps around the “rpptx”
+class from <code>officer</code> to add some <code>powerup</code>
+specific functionality.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>pptx</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; &lt;pptx_container&gt; with 0 slides.</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; ℹ Available layouts: &quot;Title Slide&quot;, &quot;Title and Content&quot;, &quot;Section Header&quot;, &quot;Two</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt;   Content&quot;, &quot;Comparison&quot;, &quot;Title Only&quot;, and &quot;Blank&quot;.</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; ℹ Use `list_placeholders(index = )` or `list_placeholders(layout = )` to get</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt;   information about available placeholders</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; ℹ Use `powerup::add_slide()` or `powerup::update_slide()` to add content to new</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt;   or existing slides</span></span></code></pre></div>
+</div>
+<div id="adding-slides" class="section level1">
+<h1>Adding slides</h1>
+<p>Once you have a presentation, you typically want to add slides with
+content. Although these two operations can be performed together, we
+have separated them in this document for clarity.</p>
+<p>The <code>add_slide()</code> function can be used to add one slide
+with a given layout from the list of available layouts, it returns a
+modified <code>pptx</code> object which allows adding multiple slides by
+chaining calls to <code>add_slide()</code>.</p>
+<p>Let’s start by creating a document from the PowerPoint template with
+3 slides.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>pptx <span class="ot">&lt;-</span> <span class="fu">load_pptx</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">add_slide</span>(<span class="st">&quot;Title Slide&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">add_slide</span>(<span class="st">&quot;Title and Content&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">add_slide</span>(<span class="st">&quot;Two Content&quot;</span>)</span></code></pre></div>
+<p>By default, the new slide is placed at the end of document, but
+<code>add_slide()</code> also accepts an <code>index=</code> argument if
+you’d like the new slide to be added elsewhere. This typically happens
+when you work on a document interactively.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>pptx <span class="ot">&lt;-</span> <span class="fu">load_pptx</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">add_slide</span>(<span class="st">&quot;Title Slide&quot;</span>) <span class="sc">|&gt;</span>   <span class="co"># slide 1 at this point</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">add_slide</span>(<span class="st">&quot;Two Content&quot;</span>)    <span class="co"># slide 2 at this point</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>pptx <span class="ot">&lt;-</span> pptx <span class="sc">|&gt;</span> </span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="fu">add_slide</span>(<span class="st">&quot;Comparison&quot;</span>, <span class="at">index =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p>When you do this, you have to be mindful that this moves slides
+around in the document, i.e. the second slide now has the “Comparison”
+layout and the slide with layout “Two Content” has moved to third
+position.</p>
+</div>
+<div id="layouts" class="section level1">
+<h1>Layouts</h1>
+<p>The <code>list_layouts()</code> function gives you a tibble that
+summarises the available layouts and some of their characteristics:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">list_layouts</span>(pptx)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 7 × 5</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt;   name        filename placeholders_count placeholders_summary placeholders_data</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;                 &lt;int&gt; &lt;chr&gt;                &lt;list&gt;           </span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; 1 Title Slide slideLa…                  5 Title (1), Subtitle… &lt;tibble [5 × 11]&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; 2 Title and … slideLa…                  5 Title (1), Content … &lt;tibble [5 × 11]&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 3 Section He… slideLa…                  5 Title (1), Text Pla… &lt;tibble [5 × 11]&gt;</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 4 Two Content slideLa…                  6 Title (1), Content … &lt;tibble [6 × 11]&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; 5 Comparison  slideLa…                  8 Title (1), Text Pla… &lt;tibble [8 × 11]&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; 6 Title Only  slideLa…                  4 Title (1), Date Pla… &lt;tibble [4 × 11]&gt;</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; 7 Blank       slideLa…                  3 Date Placeholder (1… &lt;tibble [3 × 11]&gt;</span></span></code></pre></div>
+<p><code>powerup</code> offers various ways to choose which layout to
+use for a new slide.</p>
+<p>The <code>list_placeholders()</code> function gives a glimpse.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">list_placeholders</span>(pptx, <span class="at">layout =</span> <span class="st">&quot;Title Slide&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt;   ph_label                   type     `x (in)`      `y (in)`      </span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; ── From layout &quot;Title Slide&quot; ───────────────────────────────────────────────────</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; 1 Date Placeholder 3         dt       [0.50 - 2.83] [6.95 - 7.35] </span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; 2 Footer Placeholder 4       ftr      [3.42 - 6.58] [6.95 - 7.35] </span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; 3 Slide Number Placeholder 5 sldNum   [7.17 - 9.50] [6.95 - 7.35] </span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; 4 Subtitle 2                 subTitle [1.50 - 8.50] [4.25 - 6.17] </span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; 5 Title 1                    ctrTitle [0.75 - 9.25] [2.33 - 3.94]</span></span></code></pre></div>
+<p>and for a quick visual glance, you can use the tailored
+<code>ggplot()</code> method.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">list_placeholders</span>(pptx, <span class="at">layout =</span> <span class="st">&quot;Title Slide&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">ggplot</span>()</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="adding-content" class="section level1">
+<h1>Adding content</h1>
+<p>Once we’ve added slides, we can add displays with the
+<code>update_slide()</code> function, it takes the document and the
+slide index as mandatory first arguments, and then a variable number of
+display specifications, as calls to the <code>content()</code>
+function.</p>
+<p>Let’s illustrate with a simple example that updates the first slide
+with two simple strings displays.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>pptx <span class="ot">&lt;-</span> pptx <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">update_slide</span>(<span class="at">index =</span> <span class="dv">1</span>, </span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>    <span class="fu">content</span>(<span class="st">&quot;My slide title&quot;</span>                        , <span class="at">ph =</span> <span class="fu">ph_title</span>()), </span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>    <span class="fu">content</span>(<span class="st">&quot;Some more information in the sub title&quot;</span>, <span class="at">ph =</span> <span class="fu">ph_subtitle</span>())</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  )</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; → powerup to add 2 contents at slide 1.</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; ✔ Successfully added content to placeholder &quot;Title 1&quot;.</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; ✔ Successfully added content to placeholder &quot;Subtitle 2&quot;.</span></span></code></pre></div>
+<p><code>update_slide()</code> also returns the modified pptx object, so
+multiple calls can be chained.</p>
+<p>Adding displays amounts to making a number of calls to the
+<code>content()</code> function to encapsulate: - <em>what</em> to add,
+with the <code>value=</code> argument - <em>where</em> to add it, via
+the <code>ph=</code> argument</p>
+</div>
+<div id="displays" class="section level1">
+<h1>Displays</h1>
+<p>The <code>content(value=)</code> argument accepts anything that can
+be polished by the <code>polish::polish_content_pptx()</code> function,
+which is extensible to allow third party packages to implement it. The
+<code>content(...=)</code> arguments are also passed down to
+<code>polish_content_pptx()</code> in addition to <code>value=</code> to
+fine tune how each value may be polished.</p>
+<p>For example, <code>content(value=)</code> handles the
+<code>plot1</code> and <code>tbl1</code> objects created below.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">library</span>(flextable)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(mpg, disp)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>tbl1  <span class="ot">&lt;-</span> mtcars <span class="sc">|&gt;</span> <span class="fu">select</span>(mpg, disp) <span class="sc">|&gt;</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">|&gt;</span> <span class="fu">flextable</span>()</span></code></pre></div>
+</div>
+<div id="placeholders" class="section level1">
+<h1>Placeholders</h1>
+<p>The second part of what <code>content()</code> needs is information
+about <em>where</em> to inject the display. <code>powerup</code> offers
+ways to precisely specify the placeholder depending on if you intend to
+target a placeholder from the layout or create one from scratch. This is
+described in the dedicated vignette.</p>
+<p>But for the purpose of this document, we only cover the set of
+predefined placeholders for the most common cases which generally are
+good enough: - <code>ph_title()</code>, <code>ph_subtitle()</code> to
+target Title or SubTitle - <code>ph_body()</code>,
+<code>ph_body_left()</code> and <code>ph_body_right()</code> to target
+body placeholders, or more specifically left-most or right-most -
+<code>ph_footer()</code>, <code>ph_footer_left()</code> and
+<code>ph_footer_right()</code> for footer placeholders</p>
+<p>These templated placeholders have carefully selected defaults to
+first prioritize existing placeholders in the slide or the slide layout,
+and if no match is found use the predefined settings to create a new
+placeholder.</p>
+</div>
+<div id="saving-the-document" class="section level1">
+<h1>Saving the document</h1>
+<p>As we’ve loaded the document with <code>load_pptx()</code>, we can
+save it with <code>save_pptx()</code>.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">save_pptx</span>(pptx, <span class="at">path =</span> <span class="st">&quot;updated_deck.pptx&quot;</span>)</span></code></pre></div>
+</div>
+<div id="wrapping-it-all-together" class="section level1">
+<h1>Wrapping it all together</h1>
+<p>Now that we’ve covered how to create a powerpoint presentation from a
+template, add slides, add displays to them, and save the document back
+to the file system, we can put it all together as a simple script that
+creates a simple presentation.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">library</span>(powerup)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">library</span>(flextable)</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(mpg, disp)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>tbl1  <span class="ot">&lt;-</span> mtcars <span class="sc">|&gt;</span> <span class="fu">select</span>(mpg, disp) <span class="sc">|&gt;</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">|&gt;</span> <span class="fu">flextable</span>()</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>pptx <span class="ot">&lt;-</span> <span class="fu">load_pptx</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>  <span class="fu">add_slide</span>(<span class="st">&quot;Title Slide&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>  <span class="fu">add_slide</span>(<span class="st">&quot;Comparison&quot;</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>pptx <span class="ot">&lt;-</span> pptx <span class="sc">|&gt;</span> </span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>  <span class="fu">update_slide</span>(<span class="at">index =</span> <span class="dv">1</span>, </span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a>    <span class="fu">content</span>(<span class="st">&quot;Title&quot;</span>,     <span class="at">ph =</span> <span class="fu">ph_title</span>()), </span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a>    <span class="fu">content</span>(<span class="st">&quot;Sub title&quot;</span>, <span class="at">ph =</span> <span class="fu">ph_subtitle</span>())</span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a>  <span class="fu">update_slide</span>(<span class="at">index =</span> <span class="dv">2</span>, </span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a>    <span class="fu">content</span>(plot1, <span class="at">ph =</span> <span class="fu">ph_body_left</span>()), </span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a>    <span class="fu">content</span>(tbl1,  <span class="at">ph =</span> <span class="fu">ph_body_right</span>())</span>
+<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a>  )</span>
+<span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a><span class="co">#&gt; → powerup to add 2 contents at slide 1.</span></span>
+<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a><span class="co">#&gt; ✔ Successfully added content to placeholder &quot;Title 1&quot;.</span></span>
+<span id="cb12-24"><a href="#cb12-24" tabindex="-1"></a><span class="co">#&gt; ✔ Successfully added content to placeholder &quot;Subtitle 2&quot;.</span></span>
+<span id="cb12-25"><a href="#cb12-25" tabindex="-1"></a><span class="co">#&gt; → powerup to add 2 contents at slide 2.</span></span>
+<span id="cb12-26"><a href="#cb12-26" tabindex="-1"></a><span class="co">#&gt; ✔ Successfully added content to placeholder &quot;Content Placeholder 3&quot;.</span></span>
+<span id="cb12-27"><a href="#cb12-27" tabindex="-1"></a><span class="co">#&gt; ✔ Successfully added content to placeholder &quot;Content Placeholder 5&quot;.</span></span>
+<span id="cb12-28"><a href="#cb12-28" tabindex="-1"></a></span>
+<span id="cb12-29"><a href="#cb12-29" tabindex="-1"></a><span class="co"># save_pptx(pptx, &quot;//somewhere/over/the/rainbow.pptx&quot;)</span></span></code></pre></div>
+<p>Alternatively, we can also take advantage of the fact that
+<code>add_slide()</code> can directly handle the <code>content()</code>
+calls, which has the side benefits of: - visually having the layout
+closer to the displays - avoid having to mentally map which slide is
+which.</p>
+<p>The script can then be rewritten in a more concise and expressive
+form:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">library</span>(powerup)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">library</span>(flextable)</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(mpg, disp)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>tbl1  <span class="ot">&lt;-</span> mtcars <span class="sc">|&gt;</span> <span class="fu">select</span>(mpg, disp) <span class="sc">|&gt;</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">|&gt;</span> <span class="fu">flextable</span>()</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>pptx <span class="ot">&lt;-</span> <span class="fu">load_pptx</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>  <span class="fu">add_slide</span>(<span class="st">&quot;Title Slide&quot;</span>, </span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>    <span class="fu">content</span>(<span class="st">&quot;Title&quot;</span>,     <span class="at">ph =</span> <span class="fu">ph_title</span>()), </span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>    <span class="fu">content</span>(<span class="st">&quot;Sub title&quot;</span>, <span class="at">ph =</span> <span class="fu">ph_subtitle</span>())        </span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>  <span class="fu">add_slide</span>(<span class="st">&quot;Comparison&quot;</span>, </span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a>    <span class="fu">content</span>(plot1, <span class="at">ph =</span> <span class="fu">ph_body_left</span>()), </span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>    <span class="fu">content</span>(tbl1,  <span class="at">ph =</span> <span class="fu">ph_body_right</span>())       </span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>  )</span>
+<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a><span class="co">#&gt; → powerup to add 2 contents at slide 1.</span></span>
+<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a><span class="co">#&gt; ✔ Successfully added content to placeholder &quot;Title 1&quot;.</span></span>
+<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a><span class="co">#&gt; ✔ Successfully added content to placeholder &quot;Subtitle 2&quot;.</span></span>
+<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a><span class="co">#&gt; → powerup to add 2 contents at slide 2.</span></span>
+<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a><span class="co">#&gt; ✔ Successfully added content to placeholder &quot;Content Placeholder 3&quot;.</span></span>
+<span id="cb13-23"><a href="#cb13-23" tabindex="-1"></a><span class="co">#&gt; ✔ Successfully added content to placeholder &quot;Content Placeholder 5&quot;.</span></span>
+<span id="cb13-24"><a href="#cb13-24" tabindex="-1"></a><span class="co"># save_pptx(pptx, &quot;//somewhere/over/the/rainbow.pptx&quot;)</span></span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
